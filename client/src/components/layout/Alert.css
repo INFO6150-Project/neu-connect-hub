@@ -1,0 +1,86 @@
+/* alert.css */
+
+/* Alert Container/Wrapper */
+.alert-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Base Alert Styles */
+.alert {
+  padding: 0.8rem;
+  margin: 1rem 0;
+  opacity: 0;
+  background: var(--light-color);
+  color: #333;
+  border-radius: 4px;
+  min-width: 300px;
+  max-width: 600px;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  animation: slideDown 0.5s ease-in-out forwards;
+}
+
+/* Alert being removed */
+.alert.removing {
+  animation: slideUp 0.5s ease-in-out forwards;
+}
+
+/* Slide Down Animation */
+@keyframes slideDown {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+}
+
+/* Slide Up Animation */
+@keyframes slideUp {
+  0% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+/* Alert Type Variations */
+.alert-primary {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.alert-dark {
+  background: var(--dark-color);
+  color: #fff;
+}
+
+.alert-success {
+  background: var(--success-color);
+  color: #fff;
+}
+
+.alert-danger {
+  background: var(--danger-color);
+  color: #fff;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .alert {
+    min-width: 90%;
+    margin: 1rem 10px;
+  }
+}
