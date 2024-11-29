@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { login } from "../../actions/auth";
 
-const Login = () => {
+const Login = ({ login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -15,8 +18,14 @@ const Login = () => {
   const onSubmit = async (event) => {
     event.preventDefault();
     console.log("success");
+
+    login(email, password);
   };
 
+  //redirect if logedin
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" />;
+  }
   return (
     <>
       <h1 className="large text-primary">Login</h1>
@@ -31,7 +40,6 @@ const Login = () => {
             name="email"
             value={email}
             onChange={(event) => onChange(event)}
-            required
           />
         </div>
         <div className="form-group">
@@ -41,7 +49,6 @@ const Login = () => {
             name="password"
             value={password}
             onChange={(event) => onChange(event)}
-            minLength="6"
           />
         </div>
 
@@ -54,4 +61,12 @@ const Login = () => {
   );
 };
 
-export default Login;
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+};
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { login })(Login);
