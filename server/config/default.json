@@ -1,4 +1,6 @@
 {
     "mongoURI": "mongodb+srv://ashishAdminReadWrite:Test123@userdb1.1flvu.mongodb.net/?retryWrites=true&w=majority&appName=UserDB1",
-    "jwtSecret": "Mysecrettoken"
+    "jwtSecret": "Mysecrettoken",
+    "githubClientId":"Ov23liSqRFoeztKZJqhY",
+    "githubClientSecret": "dc9bb7e52b14891b6e66eabe41ce98f800c8c043"
 }
