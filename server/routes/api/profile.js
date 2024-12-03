@@ -1,4 +1,6 @@
 const express = require('express');
+const axios = require('axios');
+const dotenv=require('dotenv');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
@@ -30,7 +32,6 @@ router.get('/me', auth, async (req, res) => {
 // route            POST api/profile/
 // @desc            Create or update user user profile
 // @access          Private
-
 router.post('/',auth, check('status', 'Status is required').notEmpty(), check('skills', 'Skills is required').notEmpty(), async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -93,7 +94,6 @@ router.post('/',auth, check('status', 'Status is required').notEmpty(), check('s
 // route            GET api/profile
 // @desc            Get all profiles
 // @access          Public
-
 router.get('/', async (req, res) => {
     try {
       const profiles = await Profile.find().populate('user', ['name', 'avatar']);
@@ -125,4 +125,189 @@ router.get(
       }
     }
   );
+
+// @route    DELETE api/profile
+// @desc     Delete profile, user & posts
+// @access   Private
+router.delete('/', auth, async (req, res) => {
+    try {
+      // Remove user posts
+      // Remove profile
+      // Remove user
+    await Promise.all([
+       // Post.deleteMany({ user: req.user.id }),
+          Profile.findOneAndDelete({ user: req.user.id }),
+          User.findOneAndDelete({ _id: req.user.id })
+      ]);
+  
+      res.json({ msg: 'User deleted' });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  });
+
+// @route    PUT api/profile/experience
+// @desc     Add profile experience
+// @access   Private
+router.put(
+    '/experience',
+    auth,
+    [
+      check('title', 'Title is required').notEmpty(),
+      check('company', 'Company is required').notEmpty(),
+      check('from', 'From date is required and needs to be from the past')
+        .notEmpty()
+        .custom((value, { req }) => {
+          const fromDate = new Date(value);
+          const toDate = req.body.to ? new Date(req.body.to) : null;
+  
+          // Ensure 'from' is in the past
+          if (fromDate >= new Date()) {
+            throw new Error('From date must be in the past');
+          }
+  
+          // Ensure 'from' is before 'to' if 'to' is provided
+          if (toDate && fromDate >= toDate) {
+            throw new Error("'From' date must be before 'To' date");
+          }
+  
+          return true;
+        })
+    ],
+    async (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+  
+      try {
+        const profile = await Profile.findOne({ user: req.user.id });
+  
+        // Add the new experience to the beginning of the experience array
+        profile.experience.unshift(req.body);
+  
+        // Save the updated profile
+        await profile.save();
+  
+        // Respond with the updated profile
+        res.json(profile);
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+      }
+    }
+  );
+  
+
+// @route    DELETE api/profile/experience/:exp_id
+// @desc     Delete experience from profile
+// @access   Private
+router.delete('/experience/:exp_id', auth, async (req, res) => {
+    try {
+      const foundProfile = await Profile.findOne({ user: req.user.id });
+  
+      foundProfile.experience = foundProfile.experience.filter(
+        (exp) => exp._id.toString() !== req.params.exp_id
+      );
+  
+      await foundProfile.save();
+      return res.status(200).json(foundProfile);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ msg: 'Server error' });
+    }
+  });
+
+// @route    PUT api/profile/education
+// @desc     Add profile education
+// @access   Private
+router.put(
+    '/education',
+    auth,
+    [
+      check('school', 'School is required').notEmpty(),
+      check('degree', 'Degree is required').notEmpty(),
+      check('fieldofstudy', 'Field of study is required').notEmpty(),
+      check('from', 'From date is required and needs to be from the past')
+        .notEmpty()
+        .custom((value, { req }) => {
+          const fromDate = new Date(value); // Convert 'from' to Date
+          const toDate = req.body.to ? new Date(req.body.to) : null;
+  
+          if (isNaN(fromDate.getTime())) {
+            throw new Error('Invalid from date format');
+          }
+  
+          if (fromDate >= new Date()) {
+            throw new Error('From date must be in the past');
+          }
+  
+          if (toDate && fromDate >= toDate) {
+            throw new Error('From date must be before To date');
+          }
+  
+          return true;
+        })
+    ],
+    async (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+  
+      try {
+        const profile = await Profile.findOne({ user: req.user.id });
+  
+        profile.education.unshift(req.body);
+  
+        await profile.save();
+  
+        res.json(profile);
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+      }
+    }
+  );
+  
+  
+  // @route    DELETE api/profile/education/:edu_id
+  // @desc     Delete education from profile
+  // @access   Private
+  router.delete('/education/:edu_id', auth, async (req, res) => {
+    try {
+      const foundProfile = await Profile.findOne({ user: req.user.id });
+      foundProfile.education = foundProfile.education.filter(
+        (edu) => edu._id.toString() !== req.params.edu_id
+      );
+      await foundProfile.save();
+      return res.status(200).json(foundProfile);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ msg: 'Server error' });
+    }
+  });
+
+// @route    GET api/profile/github/:username
+// @desc     Get user repos from Github
+// @access   Public
+router.get('/github/:username', async (req, res) => {
+    try {
+      const uri = encodeURI(
+        `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${process.env.githubClientId}&client_secret=${process.env.githubClientId}`
+      );
+      const headers = {
+        'user-agent': 'node.js',
+        Authorization: `token ${process.env.githubToken}`
+      };
+  
+      const gitHubResponse = await axios.get(uri, { headers });
+      return res.json(gitHubResponse.data);
+    } catch (err) {
+      console.error(err.message);
+      return res.status(404).json({ msg: 'No Github profile found' });
+    }
+  });
+  
 module.exports = router;
