@@ -1,0 +1,66 @@
+.education-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.education-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 16px;
+  background: rgba(40, 40, 42, 0.5);
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.education-item:hover {
+  background: rgba(50, 50, 52, 0.5);
+}
+
+.education-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.education-school {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.022em;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.education-degree {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.82);
+  letter-spacing: -0.015em;
+}
+
+.education-date {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: -0.008em;
+}
+
+.education-delete {
+  align-self: center;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #ff453a;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.education-delete:hover {
+  background: rgba(255, 69, 58, 0.1);
+}
+
+@media (max-width: 768px) {
+  .education-item {
+    padding: 14px;
+  }
+}

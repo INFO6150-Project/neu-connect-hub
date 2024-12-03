@@ -1,0 +1,67 @@
+/* Experience.css */
+.experience-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.experience-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 16px;
+  background: rgba(40, 40, 42, 0.5);
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.experience-item:hover {
+  background: rgba(50, 50, 52, 0.5);
+}
+
+.experience-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.experience-company {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.022em;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.experience-title {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.82);
+  letter-spacing: -0.015em;
+}
+
+.experience-date {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: -0.008em;
+}
+
+.experience-delete {
+  align-self: center;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #ff453a;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.experience-delete:hover {
+  background: rgba(255, 69, 58, 0.1);
+}
+
+@media (max-width: 768px) {
+  .experience-item {
+    padding: 14px;
+  }
+}
