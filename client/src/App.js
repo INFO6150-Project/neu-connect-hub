@@ -25,14 +25,13 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Navbar />
-        <section className="container">
-          <Alert />
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-          </Routes>
-        </section>
+
+        <Alert />
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
       </Router>
     </Provider>
   );
