@@ -1,122 +1,134 @@
-import "./navbar.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
+import "./Navbar.css";
 
-const Navbar = ({
-  title = "NEU Connect",
-  auth: { isAuthenticated, loading },
-  logout,
-}) => {
-  const [isScrolled, setIsScrolled] = useState(false);
+const Navbar = ({ auth: { isAuthenticated }, logout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // Toggle body scroll when menu is open
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+    if (isMenuOpen) {
+      document.body.classList.add("menu-open");
+    } else {
+      document.body.classList.remove("menu-open");
+    }
+  }, [isMenuOpen]);
+
+  // Close menu on outside click
+  useEffect(() => {
+    const closeMenu = (e) => {
+      if (isMenuOpen && !e.target.closest(".navbar")) {
+        setIsMenuOpen(false);
+      }
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-    document.body.style.overflow = !isMenuOpen ? "hidden" : "";
-  };
+    document.addEventListener("click", closeMenu);
+    return () => document.removeEventListener("click", closeMenu);
+  }, [isMenuOpen]);
 
-  const closeMenu = () => {
+  // Close menu on resize
+  useEffect(() => {
+    const closeOnResize = () => {
+      if (window.innerWidth > 768 && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", closeOnResize);
+    return () => window.removeEventListener("resize", closeOnResize);
+  }, [isMenuOpen]);
+
+  const handleLinkClick = () => {
     setIsMenuOpen(false);
-    document.body.style.overflow = "";
   };
 
   const authLinks = (
-    <>
+    <ul className="navbar-nav">
       <li>
-        <Link to="/profiles" onClick={closeMenu}>
+        <Link to="/profiles" onClick={handleLinkClick}>
           Developers
         </Link>
       </li>
       <li>
-        <Link
-          to="/"
-          onClick={() => {
+        <Link to="/posts" onClick={handleLinkClick}>
+          Posts
+        </Link>
+      </li>
+      <li>
+        <Link to="/dashboard" onClick={handleLinkClick}>
+          Dashboard
+        </Link>
+      </li>
+      <li>
+        <a
+          href="#!"
+          onClick={(e) => {
+            e.preventDefault();
+            handleLinkClick();
             logout();
-            closeMenu();
           }}
         >
           Logout
-        </Link>
+        </a>
       </li>
-    </>
+    </ul>
   );
 
   const guestLinks = (
-    <>
+    <ul className="navbar-nav">
       <li>
-        <Link to="/profiles" onClick={closeMenu}>
+        <Link to="/profiles" onClick={handleLinkClick}>
           Developers
         </Link>
       </li>
       <li>
-        <Link to="/register" onClick={closeMenu}>
+        <Link to="/register" onClick={handleLinkClick}>
           Register
         </Link>
       </li>
       <li>
-        <Link to="/login" onClick={closeMenu}>
+        <Link to="/login" onClick={handleLinkClick}>
           Login
         </Link>
       </li>
-    </>
+    </ul>
   );
 
   return (
-    <>
-      <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
-        <div className="navbar-container">
-          <h1>
-            <Link to="/">{title}</Link>
-          </h1>
+    <nav className={`navbar ${isMenuOpen ? "menu-open" : ""}`}>
+      <div className="navbar-brand">
+        <Link to="/" onClick={handleLinkClick}>
+          DevConnector
+        </Link>
+      </div>
 
-          {/* Desktop Menu */}
-          <ul className="nav-menu desktop-menu">
-            {!loading && (isAuthenticated ? authLinks : guestLinks)}
-          </ul>
+      <div className="navbar-menu">
+        {isAuthenticated ? authLinks : guestLinks}
+      </div>
 
-          {/* Hamburger Button */}
-          <div
-            className={`hamburger ${isMenuOpen ? "active" : ""}`}
-            onClick={toggleMenu}
-          >
-            <span className="line"></span>
-            <span className="line"></span>
-            <span className="line"></span>
-          </div>
-
-          {/* Mobile Menu */}
-          <div className={`mobile-menu ${isMenuOpen ? "active" : ""}`}>
-            <div className="mobile-menu-container">
-              <ul className="nav-menu">
-                {!loading && (isAuthenticated ? authLinks : guestLinks)}
-              </ul>
-            </div>
-          </div>
+      <button
+        className="hamburger"
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsMenuOpen(!isMenuOpen);
+        }}
+        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        aria-expanded={isMenuOpen}
+      >
+        <div className="hamburger-lines">
+          <span className="hamburger-line"></span>
+          <span className="hamburger-line"></span>
+          <span className="hamburger-line"></span>
         </div>
-      </nav>
-
-      {/* Background Overlay */}
-      <div
-        className={`mobile-menu-overlay ${isMenuOpen ? "active" : ""}`}
-        onClick={closeMenu}
-      />
-    </>
+      </button>
+    </nav>
   );
 };
 
 Navbar.propTypes = {
-  title: PropTypes.string,
   logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 };
