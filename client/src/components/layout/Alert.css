@@ -1,86 +1,90 @@
-/* alert.css */
-
-/* Alert Container/Wrapper */
 .alert-wrapper {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  z-index: 1000;
+  gap: 8px;
+  padding: 8px;
+  pointer-events: none;
+  width: 400px;
 }
 
-/* Base Alert Styles */
 .alert {
-  padding: 0.8rem;
-  margin: 1rem 0;
-  opacity: 0;
-  background: var(--light-color);
-  color: #333;
-  border-radius: 4px;
-  min-width: 300px;
-  max-width: 600px;
-  text-align: center;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-  animation: slideDown 0.5s ease-in-out forwards;
-}
-
-/* Alert being removed */
-.alert.removing {
-  animation: slideUp 0.5s ease-in-out forwards;
-}
-
-/* Slide Down Animation */
-@keyframes slideDown {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 0.9;
-  }
-}
-
-/* Slide Up Animation */
-@keyframes slideUp {
-  0% {
-    transform: translateY(0);
-    opacity: 0.9;
-  }
-  100% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-}
-
-/* Alert Type Variations */
-.alert-primary {
-  background: var(--primary-color);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 12px 16px;
   color: #fff;
+  font-size: 14px;
+  margin: 0 auto;
+  width: 480px;
+  width: 100%;
+  animation: slideIn 0.3s ease forwards;
+  position: relative;
+  overflow: hidden;
+  pointer-events: auto;
 }
 
-.alert-dark {
-  background: var(--dark-color);
-  color: #fff;
+.alert-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.alert svg {
+  flex-shrink: 0;
 }
 
 .alert-success {
-  background: var(--success-color);
-  color: #fff;
+  color: #30d158;
 }
 
 .alert-danger {
-  background: var(--danger-color);
-  color: #fff;
+  color: #ff453a;
 }
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
+.alert-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.5;
+  width: 100%;
+  animation: progress 5s linear forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+@media (max-width: 520px) {
+  .alert-wrapper {
+    padding: 4px;
+    width: 300px;
+  }
+
   .alert {
-    min-width: 90%;
-    margin: 1rem 10px;
+    border-radius: 8px;
   }
 }

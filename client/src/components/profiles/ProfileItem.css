@@ -1,0 +1,105 @@
+.profile-card {
+  background: rgba(28, 28, 30, 0.92);
+  border-radius: 16px;
+  padding: 24px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: transform 0.2s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-2px);
+}
+
+.profile-card-header {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.profile-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  object-fit: cover;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0 0 4px 0;
+  letter-spacing: -0.022em;
+}
+
+.profile-status {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0 0 4px 0;
+}
+
+.profile-location {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.profile-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tag {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.view-profile-button {
+  background: #0a84ff;
+  color: white;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+  transition: background-color 0.2s ease;
+}
+
+.view-profile-button:hover {
+  background: #0091ff;
+}
+
+@media (max-width: 768px) {
+  .profile-card {
+    padding: 20px;
+  }
+
+  .profile-avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .profile-name {
+    font-size: 16px;
+  }
+
+  .profile-status {
+    font-size: 14px;
+  }
+
+  .skill-tag {
+    font-size: 12px;
+  }
+}

@@ -101,7 +101,7 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
     <nav className={`navbar ${isMenuOpen ? "menu-open" : ""}`}>
       <div className="navbar-brand">
         <Link to="/" onClick={handleLinkClick}>
-          DevConnector
+          NEU Connect
         </Link>
       </div>
 

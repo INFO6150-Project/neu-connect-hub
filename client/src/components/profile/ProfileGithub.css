@@ -1,0 +1,74 @@
+.github-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.github-repo {
+  padding: 16px;
+  background: rgba(40, 40, 42, 0.5);
+  border-radius: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.github-repo:hover {
+  background: rgba(50, 50, 52, 0.5);
+}
+
+.repo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.repo-name {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.repo-name a {
+  color: #0a84ff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.repo-name a:hover {
+  color: #0091ff;
+}
+
+.repo-stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.stat-badge {
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  white-space: nowrap;
+}
+
+.repo-description {
+  margin: 8px 0 0 0;
+  font-size: 15px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 768px) {
+  .repo-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .repo-stats {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}

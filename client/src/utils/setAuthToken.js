@@ -1,21 +1,18 @@
 import axios from "axios";
 
+// Store our JWT in localStorage and set axios headers if we have a token
 const setAuthToken = (token) => {
   if (token) {
+    // Set the default header with the token
     axios.defaults.headers.common["x-auth-token"] = token;
+    // Store the token in localStorage
+    localStorage.setItem("token", token);
   } else {
+    // Remove the default header if token is not provided
     delete axios.defaults.headers.common["x-auth-token"];
+    // Remove the token from localStorage
+    localStorage.removeItem("token");
   }
 };
 
 export default setAuthToken;
-
-// If a token is provided:
-
-// It adds the token to every Axios request's headers under "x-auth-token"
-// This means every request will automatically include this authentication token
-
-// If no token is provided (or it's null/undefined):
-
-// It removes the "x-auth-token" from Axios headers
-// This is useful when logging out or when the token expires

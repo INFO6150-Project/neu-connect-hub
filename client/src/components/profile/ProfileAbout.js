@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "./ProfileAbout.css";
- 
+
 const ProfileAbout = ({
   profile: {
     bio,
@@ -16,7 +16,7 @@ const ProfileAbout = ({
         <p className="bio-text">{bio}</p>
       </div>
     )}
- 
+
     <div className="about-skills">
       <h2 className="about-title">Skills</h2>
       <div className="skills-grid">
@@ -29,9 +29,9 @@ const ProfileAbout = ({
     </div>
   </div>
 );
- 
+
 ProfileAbout.propTypes = {
   profile: PropTypes.object.isRequired,
 };
- 
+
 export default ProfileAbout;

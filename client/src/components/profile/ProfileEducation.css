@@ -1,0 +1,50 @@
+.education-item {
+  padding: 20px;
+  background: rgba(40, 40, 42, 0.5);
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.education-school {
+  font-size: 17px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0 0 8px 0;
+  letter-spacing: -0.022em;
+}
+
+.education-date {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 16px 0;
+}
+
+.education-detail {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+
+.education-detail:last-child {
+  margin-bottom: 0;
+}
+
+.detail-label {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .education-item {
+    padding: 16px;
+  }
+
+  .education-school {
+    font-size: 16px;
+  }
+
+  .education-detail {
+    font-size: 14px;
+  }
+}

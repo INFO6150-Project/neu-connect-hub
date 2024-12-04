@@ -1,0 +1,73 @@
+.profiles-container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 80px 22px 40px;
+}
+
+.profiles-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.profiles-title {
+  font-size: 48px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  margin-bottom: 16px;
+  letter-spacing: -0.003em;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.profiles-subtitle {
+  font-size: 21px;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: -0.022em;
+  margin: 0;
+}
+
+.profiles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.profiles-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 48px;
+  background: rgba(28, 28, 30, 0.92);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.profiles-empty p {
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .profiles-container {
+    padding: 60px 16px 32px;
+  }
+
+  .profiles-title {
+    font-size: 32px;
+  }
+
+  .profiles-subtitle {
+    font-size: 17px;
+  }
+
+  .profiles-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

@@ -4,69 +4,105 @@ import "./Landing.css";
 import build from "../../img/build.jpg";
 import connect from "../../img/connect.jpg";
 import share from "../../img/share.jpg";
+import title from "../../img/title.jpg";
 
-const Layout = () => {
+const Landing = () => {
   return (
-    <section className="landing">
-      <div className="dark-overlay">
-        <div className="landing-inner">
-          <div className="hero-section">
-            <h1 className="x-large">Developer Connector</h1>
-            <p className="lead">
-              Create a developer profile, share posts and get help from other
-              developers
+    <div className="landing">
+      <div className="landing-inner">
+        {/* Hero Section */}
+        <div className="hero-container">
+          <div className="hero-content">
+            <h1>
+              Where developers <br /> grow together
+            </h1>
+            <p className="hero-description">
+              DevConnector is the professional community where developers
+              collaborate, share knowledge, and build their careers.
             </p>
-            <div className="buttons">
-              <Link className="btn btn-primary" to="/register">
-                Sign Up
+            <div className="hero-actions">
+              <Link to="/register" className="btn-primary">
+                Sign up for free
               </Link>
-              <Link className="btn btn-light" to="/login">
-                Login
+              <Link to="/login" className="btn-secondary">
+                Sign in →
               </Link>
             </div>
           </div>
-          <div className="features-grid">
-            <div className="feature-item">
-              <div className="feature-content">
-                <h3>Build Your Profile</h3>
-                <p>
-                  Create a stunning portfolio to showcase your skills and
-                  experience to the world.
-                </p>
-              </div>
-              <div className="feature-visual">
-                <img src={build} alt="build image" />
-              </div>
+          <div className="hero-visual">
+            <img src={title} alt="Collaboration" className="hero-image" />
+          </div>
+        </div>
+
+        {/* Features Section */}
+        <div className="features-section">
+          <div className="feature-block">
+            <div className="feature-content">
+              <h2>Build your professional identity</h2>
+              <p>
+                Create a detailed developer profile that showcases your skills,
+                projects, and experience to potential collaborators and
+                employers.
+              </p>
+              <ul className="feature-list">
+                <li>Customizable portfolio</li>
+                <li>GitHub repository integration</li>
+                <li>Skills and endorsements</li>
+              </ul>
             </div>
-            <div className="feature-item">
-              <div className="feature-content">
-                <h3>Connect & Grow</h3>
-                <p>
-                  Network with developers worldwide and find opportunities for
-                  collaboration.
-                </p>
-              </div>
-              <div className="feature-visual">
-                <img src={connect} alt="connect image" />
-              </div>
+            <div className="feature-visual">
+              <img src={build} alt="Build Profile" />
             </div>
-            <div className="feature-item">
-              <div className="feature-content">
-                <h3>Share & Learn</h3>
-                <p>
-                  Exchange knowledge, get feedback, and accelerate your
-                  professional growth.
-                </p>
-              </div>
-              <div className="feature-visual">
-                <img src={share} alt="share image" />
-              </div>
+          </div>
+
+          <div className="feature-block reverse">
+            <div className="feature-content">
+              <h2>Connect with developers</h2>
+              <p>
+                Join a thriving community of developers, where you can network,
+                collaborate on projects, and grow your professional circle.
+              </p>
+              <ul className="feature-list">
+                <li>Global developer network</li>
+                <li>Real-time messaging</li>
+                <li>Project collaboration</li>
+              </ul>
+            </div>
+            <div className="feature-visual">
+              <img src={connect} alt="Connect" />
+            </div>
+          </div>
+
+          <div className="feature-block">
+            <div className="feature-content">
+              <h2>Share knowledge & grow</h2>
+              <p>
+                Exchange ideas, ask questions, and share your expertise with
+                developers from around the world.
+              </p>
+              <ul className="feature-list">
+                <li>Technical discussions</li>
+                <li>Code reviews</li>
+                <li>Mentorship opportunities</li>
+              </ul>
+            </div>
+            <div className="feature-visual">
+              <img src={share} alt="Share" />
             </div>
           </div>
         </div>
+
+        {/* CTA Section */}
+        <div className="cta-section">
+          <h2>Ready to join our community?</h2>
+          <p>Start building your developer network today.</p>
+          <Link to="/register" className="btn-primary">
+            Get started for free
+          </Link>
+        </div>
       </div>
-    </section>
+    </div>
   );
 };
 
-export default Layout;
+export default Landing;

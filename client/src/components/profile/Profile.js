@@ -10,16 +10,16 @@ import ProfileEducation from "./ProfileEducation";
 import ProfileGithub from "./ProfileGithub";
 import { getProfileById } from "../../actions/profile";
 import "./Profile.css";
- 
+
 const Profile = ({ getProfileById, profile: { profile }, auth }) => {
   const { id } = useParams();
- 
+
   useEffect(() => {
     getProfileById(id);
   }, [getProfileById, id]);
- 
+
   if (!profile) return <Spinner />;
- 
+
   return (
     <div className="profile-container">
       <div className="profile-header">
@@ -36,13 +36,13 @@ const Profile = ({ getProfileById, profile: { profile }, auth }) => {
             )}
         </div>
       </div>
- 
+
       <div className="profile-content">
         <div className="profile-section main-info">
           <ProfileTop profile={profile} />
           <ProfileAbout profile={profile} />
         </div>
- 
+
         <div className="profile-section">
           <div className="section-header">
             <h2>Experience</h2>
@@ -60,7 +60,7 @@ const Profile = ({ getProfileById, profile: { profile }, auth }) => {
             )}
           </div>
         </div>
- 
+
         <div className="profile-section">
           <div className="section-header">
             <h2>Education</h2>
@@ -75,7 +75,7 @@ const Profile = ({ getProfileById, profile: { profile }, auth }) => {
             )}
           </div>
         </div>
- 
+
         {profile.githubusername && (
           <div className="profile-section">
             <div className="section-header">
@@ -90,16 +90,16 @@ const Profile = ({ getProfileById, profile: { profile }, auth }) => {
     </div>
   );
 };
- 
+
 Profile.propTypes = {
   getProfileById: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };
- 
+
 const mapStateToProps = (state) => ({
   profile: state.profile,
   auth: state.auth,
 });
- 
+
 export default connect(mapStateToProps, { getProfileById })(Profile);
