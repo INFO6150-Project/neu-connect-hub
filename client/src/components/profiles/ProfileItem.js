@@ -15,7 +15,7 @@ const ProfileItem = ({
   return (
     <div className="profile-card">
       <div className="profile-card-header">
-        <img src={avatar} alt={name} className="profile-avatar" />
+        {/* <img src={avatar} alt={name} className="profile-avatar" /> */}
         <div className="profile-info">
           <h2 className="profile-name">{name}</h2>
           <p className="profile-status">

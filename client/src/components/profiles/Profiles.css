@@ -2,6 +2,7 @@
   max-width: 980px;
   margin: 0 auto;
   padding: 80px 22px 40px;
+  min-height: 100vh;
 }
 
 .profiles-header {
