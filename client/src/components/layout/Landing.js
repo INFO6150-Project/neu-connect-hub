@@ -17,7 +17,7 @@ const Landing = () => {
               Where developers <br /> grow together
             </h1>
             <p className="hero-description">
-              DevConnector is the professional community where developers
+              NEU Connect is the professional community where developers
               collaborate, share knowledge, and build their careers.
             </p>
             <div className="hero-actions">

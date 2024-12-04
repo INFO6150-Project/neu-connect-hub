@@ -10,21 +10,25 @@ const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const checkObjectId = require('../../middleware/checkObjectId');
 
-
-// route            GET api/profile/me
-// @desc            Get cuurent users profile
-// @access          Private
+// @route    GET api/profile/me
+// @desc     Get current user's profile
+// @access   Private
 router.get('/me', auth, async (req, res) => {
-    try{
+    try {
+        console.log('Profile fetch attempt - User ID:', req.user.id);
         const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name', 'avatar']);
-    
-        if(!profile) {
+
+        console.log('Profile fetch result:', profile ? 'Profile found' : 'No profile found');
+
+        if (!profile) {
+            console.log('No profile found for user:', req.user.id);
             return res.status(400).json({ msg: 'There is no profile for this user' });
         }
 
+        console.log('Sending profile response');
         res.json(profile);
-    } catch(err) {
-        console.error(err.message);
+    } catch (err) {
+        console.error('Profile fetch error:', err.message);
         res.status(500).send('Server Error');
     }
 });

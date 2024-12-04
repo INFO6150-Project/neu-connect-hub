@@ -1,0 +1,145 @@
+.comment-item {
+    background: rgba(32, 32, 34, 0.5);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+  }
+  
+  .comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .comment-user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .comment-user-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .comment-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    object-fit: cover;
+  }
+  
+  .comment-username {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .comment-meta {
+    margin-left: 52px;
+  }
+  
+  .comment-date {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .comment-body {
+    padding: 16px;
+  }
+  
+  .comment-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+  }
+  
+  .comment-delete-btn {
+    background: none;
+    border: none;
+    color: #ff453a;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .comment-delete-btn:hover {
+    background: rgba(255, 69, 58, 0.1);
+  }
+  
+  /* Comment form styling */
+  .comment-form {
+    background: rgba(32, 32, 34, 0.5);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 24px;
+  }
+  
+  .comment-form textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+  }
+  
+  .comment-form textarea:focus {
+    outline: none;
+    border-color: #3a86ff;
+  }
+  
+  .comment-form button {
+    margin-top: 12px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    background: #3a86ff;
+    color: white;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .comment-form button:hover {
+    background: #2d6ff3;
+  }
+  
+  .comments-section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 24px 0 16px;
+  }
+  
+  @media (max-width: 768px) {
+    .comment-header {
+      padding: 12px;
+    }
+  
+    .comment-body {
+      padding: 12px;
+    }
+  
+    .comment-avatar {
+      width: 32px;
+      height: 32px;
+    }
+  
+    .comment-meta {
+      margin-left: 44px;
+    }
+  }

@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../utils/api";
 import { setAlert } from "./alert";
 import {
   REGISTER_SUCCESS,
@@ -10,39 +10,13 @@ import {
   LOGOUT,
 } from "./types";
 
-// Setup Axios with live backend URL
-const api = axios.create({
-  baseURL: "http://localhost:5001/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
-// Add interceptor to include token in headers
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers["x-auth-token"] = token; // Attach token to headers
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
 // Load User
 export const loadUser = () => async (dispatch) => {
   try {
     const res = await api.get("/auth");
-
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data,
-    });
+    dispatch({ type: USER_LOADED, payload: res.data });
   } catch (err) {
-    dispatch({
-      type: AUTH_ERROR,
-    });
+    dispatch({ type: AUTH_ERROR });
   }
 };
 
@@ -50,50 +24,36 @@ export const loadUser = () => async (dispatch) => {
 export const register = (formData) => async (dispatch) => {
   try {
     const res = await api.post("/users", formData);
-
-    dispatch({
-      type: REGISTER_SUCCESS,
-      payload: res.data,
-    });
+    localStorage.setItem("token", res.data.token); // Changed from authToken to token
+    dispatch({ type: REGISTER_SUCCESS, payload: res.data });
     dispatch(loadUser());
   } catch (err) {
-    const errors = err.response.data.errors;
-
+    const errors = err.response?.data?.errors;
     if (errors) {
       errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
     }
-
-    dispatch({
-      type: REGISTER_FAIL,
-    });
+    dispatch({ type: REGISTER_FAIL });
   }
 };
 
 // Login User
 export const login = (email, password) => async (dispatch) => {
-  const body = { email, password };
-
   try {
-    const res = await api.post("/auth", body);
-    localStorage.setItem("token", res.data);
-    dispatch({
-      type: LOGIN_SUCCESS,
-      payload: res.data,
-    });
-
+    const res = await api.post("/auth", { email, password });
+    localStorage.setItem("token", res.data.token); // Changed from authToken to token
+    dispatch({ type: LOGIN_SUCCESS, payload: res.data });
     dispatch(loadUser());
   } catch (err) {
-    const errors = err.response.data.errors;
-
+    const errors = err.response?.data?.errors;
     if (errors) {
       errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
     }
-
-    dispatch({
-      type: LOGIN_FAIL,
-    });
+    dispatch({ type: LOGIN_FAIL });
   }
 };
 
 // Logout
-export const logout = () => ({ type: LOGOUT });
+export const logout = () => {
+  localStorage.removeItem("token"); // Changed from authToken to token
+  return { type: LOGOUT };
+};
