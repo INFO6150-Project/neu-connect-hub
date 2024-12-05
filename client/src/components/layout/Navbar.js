@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
 import "./Navbar.css";
 
-const Navbar = ({ auth: { isAuthenticated }, logout }) => {
+const Navbar = ({ auth = {}, admin = {}, logout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Toggle body scroll when menu is open
@@ -77,6 +77,28 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
     </ul>
   );
 
+  const adminLinks = (
+    <ul className="navbar-nav">
+      <li>
+        <Link to="/admin/dashboard" onClick={handleLinkClick}>
+          Admin Dashboard
+        </Link>
+      </li>
+      <li>
+        <a
+          href="#!"
+          onClick={(e) => {
+            e.preventDefault();
+            handleLinkClick();
+            logout();
+          }}
+        >
+          Logout
+        </a>
+      </li>
+    </ul>
+  );
+
   const guestLinks = (
     <ul className="navbar-nav">
       <li>
@@ -91,7 +113,12 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
       </li>
       <li>
         <Link to="/login" onClick={handleLinkClick}>
-          Login
+          User Login
+        </Link>
+      </li>
+      <li>
+        <Link to="/admin/login" onClick={handleLinkClick}>
+          Admin Login
         </Link>
       </li>
     </ul>
@@ -106,7 +133,11 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
       </div>
 
       <div className="navbar-menu">
-        {isAuthenticated ? authLinks : guestLinks}
+        {admin.isAuthenticated
+          ? adminLinks
+          : auth.isAuthenticated
+          ? authLinks
+          : guestLinks}
       </div>
 
       <button
@@ -131,10 +162,12 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
 Navbar.propTypes = {
   logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  admin: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+  auth: state.auth || {}, // Fallback to an empty object
+  admin: state.admin || {}, // Fallback to an empty object
 });
 
 export default connect(mapStateToProps, { logout })(Navbar);

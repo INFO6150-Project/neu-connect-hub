@@ -1,11 +1,11 @@
 const express = require('express');
-const axios = require('axios');
-const dotenv=require('dotenv');
 const router = express.Router();
-const auth = require('../../middleware/auth');
+const axios = require('axios');
 const { check, validationResult } = require('express-validator');
 const normalize = require('normalize-url');
+require('dotenv').config();
 
+const auth = require('../../middleware/auth');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const checkObjectId = require('../../middleware/checkObjectId');
@@ -298,20 +298,39 @@ router.put(
 // @access   Public
 router.get('/github/:username', async (req, res) => {
     try {
-      const uri = encodeURI(
-        `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${process.env.githubClientId}&client_secret=${process.env.githubClientId}`
-      );
-      const headers = {
-        'user-agent': 'node.js',
-        Authorization: `token ${process.env.githubToken}`
-      };
-  
-      const gitHubResponse = await axios.get(uri, { headers });
-      return res.json(gitHubResponse.data);
+        // Basic configuration for the GitHub API request
+        const options = {
+            headers: {
+                'Accept': 'application/vnd.github.v3+json',
+                'Authorization': `token ${process.env.GITHUB_TOKEN}`
+            }
+        };
+
+        // Make request to GitHub API
+        const response = await axios.get(
+            `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`,
+            options
+        );
+
+        // If successful, return the data
+        return res.json(response.data);
+
     } catch (err) {
-      console.error(err.message);
-      return res.status(404).json({ msg: 'No Github profile found' });
+        // Enhanced error handling
+        if (err.response) {
+            // GitHub API responded with an error
+            if (err.response.status === 404) {
+                return res.status(404).json({ msg: 'GitHub profile not found' });
+            }
+            if (err.response.status === 403) {
+                return res.status(403).json({ msg: 'API rate limit exceeded' });
+            }
+            return res.status(err.response.status).json({ msg: err.response.data.message });
+        }
+        
+        // Network or other errors
+        console.error('GitHub API Error:', err.message);
+        return res.status(500).json({ msg: 'Server error' });
     }
-  });
-  
+});
 module.exports = router;

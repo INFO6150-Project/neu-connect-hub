@@ -17,20 +17,18 @@
 
 // export default setAuthToken;
 import axios from "axios";
-import api from "./api";
 
-const setAuthToken = (token) => {
+const setAuthToken = (token, isAdmin = false) => {
+  const key = isAdmin ? "adminToken" : "token";
+
   if (token) {
-    // Set the token in both axios instances
     axios.defaults.headers.common["x-auth-token"] = token;
-    api.defaults.headers.common["x-auth-token"] = token;
-    localStorage.setItem("token", token);
+    localStorage.setItem(key, token);
   } else {
-    // Remove the token from both axios instances
     delete axios.defaults.headers.common["x-auth-token"];
-    delete api.defaults.headers.common["x-auth-token"];
-    localStorage.removeItem("token");
+    localStorage.removeItem(key);
   }
 };
 
 export default setAuthToken;
+
