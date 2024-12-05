@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./Landing.css";
+import "./landing.css";
 import build from "../../img/build.jpg";
 import connect from "../../img/connect.jpg";
 import share from "../../img/share.jpg";
