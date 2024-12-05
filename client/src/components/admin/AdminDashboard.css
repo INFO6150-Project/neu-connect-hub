@@ -47,7 +47,7 @@
 }
 
 /* Dashboard Title */
-.dashboard-title {
+.admin-dashboard-title{
   font-size: 20px;
   font-weight: 500;
   margin-bottom: 15px;
@@ -249,7 +249,7 @@ select.form-input:focus {
     padding: 8px 16px;
   }
 
-  .dashboard-title {
+  .admin-dashboard-title {
     font-size: 18px;
   }
 
@@ -280,7 +280,7 @@ select.form-input:focus {
     padding: 6px 12px;
   }
 
-  .dashboard-title {
+  .admin-dashboard-title {
     font-size: 16px;
   }
 

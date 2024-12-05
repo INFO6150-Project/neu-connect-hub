@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import api from "../../utils/api";
 import "./AdminDashboard.css";
 
+
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -92,7 +93,7 @@ const AdminDashboard = () => {
     <div className="admin-dashboard">
       <div className="admin-dashboard-container">
         <section className="dashboard-content">
-          <h2 className="dashboard-title">Registered Users</h2>
+          <h2 className="admin-dashboard-title">Registered Users</h2>
 
           {/* Search Input */}
           <div className="search-container">
