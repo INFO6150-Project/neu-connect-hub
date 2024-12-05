@@ -28,6 +28,7 @@ body {
   background-color: var(--background-primary);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
+  background-color: black;
 }
 
 a {
