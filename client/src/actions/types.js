@@ -23,3 +23,10 @@ export const DELETE_POST = "DELETE_POST";
 export const ADD_POST = "ADD_POST";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const REMOVE_COMMENT = "REMOVE_COMMENT";
+export const ADMIN_LOGIN_SUCCESS = "ADMIN_LOGIN_SUCCESS";
+export const ADMIN_LOGIN_FAIL = "ADMIN_LOGIN_FAIL";
+export const ADMIN_LOADED = "ADMIN_LOADED";
+export const ADMIN_AUTH_ERROR = "ADMIN_AUTH_ERROR";
+export const GET_USERS = "GET_USERS";
+export const USERS_ERROR = "USERS_ERROR";
+
