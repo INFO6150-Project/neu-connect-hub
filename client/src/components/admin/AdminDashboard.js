@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import api from "../../utils/api";
+import { setAlert } from "../../actions/alert";
 import "./AdminDashboard.css";
 
-
-const AdminDashboard = () => {
+const AdminDashboard = ({ setAlert }) => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [editingUser, setEditingUser] = useState(null);
+  const [deletingUser, setDeletingUser] = useState(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -19,13 +20,14 @@ const AdminDashboard = () => {
         setFilteredUsers(res.data);
       } catch (err) {
         console.error("Error fetching users:", err.response?.data || err.message);
+        setAlert("Failed to fetch users", "danger");
       } finally {
         setLoading(false);
       }
     };
 
     fetchUsers();
-  }, []);
+  }, [setAlert]);
 
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
@@ -51,7 +53,7 @@ const AdminDashboard = () => {
         email: editingUser.email,
         role: editingUser.role,
       });
-      alert("User updated successfully!");
+      setAlert("User updated successfully!", "success");
       setEditingUser(null);
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
@@ -65,23 +67,24 @@ const AdminDashboard = () => {
       );
     } catch (err) {
       console.error("Error updating user:", err.response?.data || err.message);
-      alert("Failed to update user.");
+      setAlert("Failed to update user", "danger");
     }
   };
 
-  const handleDelete = async (userId) => {
-    if (!window.confirm("Are you sure you want to delete this user?")) return;
+  const handleDelete = async () => {
+    if (!deletingUser) return;
 
     try {
-      const res = await api.delete(`/admin/users/${userId}`);
-      alert(res.data.msg || "User deleted successfully!");
-      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== userId));
+      const res = await api.delete(`/admin/users/${deletingUser._id}`);
+      setAlert(res.data.msg || "User deleted successfully!", "success");
+      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== deletingUser._id));
       setFilteredUsers((prevUsers) =>
-        prevUsers.filter((user) => user._id !== userId)
+        prevUsers.filter((user) => user._id !== deletingUser._id)
       );
+      setDeletingUser(null);
     } catch (err) {
       console.error("Error deleting user:", err.response?.data || err.message);
-      alert(err.response?.data?.msg || "Failed to delete user.");
+      setAlert(err.response?.data?.msg || "Failed to delete user", "danger");
     }
   };
 
@@ -95,7 +98,6 @@ const AdminDashboard = () => {
         <section className="dashboard-content">
           <h2 className="admin-dashboard-title">Registered Users</h2>
 
-          {/* Search Input */}
           <div className="search-container">
             <input
               type="text"
@@ -132,7 +134,7 @@ const AdminDashboard = () => {
                         </button>
                         <button
                           className="delete-button"
-                          onClick={() => handleDelete(user._id)}
+                          onClick={() => setDeletingUser(user)}
                         >
                           Delete
                         </button>
@@ -151,67 +153,102 @@ const AdminDashboard = () => {
           </div>
         </section>
 
+        {/* Apple-style Edit Modal */}
         {editingUser && (
-          <div className="edit-modal">
-            <div className="edit-modal-content">
-              <h3>Edit User</h3>
-              <div className="form-field">
-                <label>Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={editingUser.name || ""}
-                  onChange={(e) =>
-                    setEditingUser({
-                      ...editingUser,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                  className="form-input"
-                />
+          <div className="apple-modal-backdrop">
+            <div className="apple-modal">
+              <div className="apple-modal-content">
+                <h3>Edit User</h3>
+                <div className="apple-form-field">
+                  <label>Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={editingUser.name || ""}
+                    onChange={(e) =>
+                      setEditingUser({
+                        ...editingUser,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                    className="apple-input"
+                    placeholder="Enter name"
+                  />
+                </div>
+                <div className="apple-form-field">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={editingUser.email || ""}
+                    onChange={(e) =>
+                      setEditingUser({
+                        ...editingUser,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                    className="apple-input"
+                    placeholder="Enter email"
+                  />
+                </div>
+                <div className="apple-form-field">
+                  <label>Role</label>
+                  <select
+                    name="role"
+                    value={editingUser.role || "user"}
+                    onChange={(e) =>
+                      setEditingUser({
+                        ...editingUser,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                    className="apple-select"
+                  >
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                  </select>
+                </div>
+                <div className="apple-modal-actions">
+                  <button
+                    className="apple-btn apple-btn-secondary"
+                    onClick={() => setEditingUser(null)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="apple-btn apple-btn-primary"
+                    onClick={handleSave}
+                  >
+                    Save
+                  </button>
+                </div>
               </div>
-              <div className="form-field">
-                <label>Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={editingUser.email || ""}
-                  onChange={(e) =>
-                    setEditingUser({
-                      ...editingUser,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                  className="form-input"
-                />
-              </div>
-              <div className="form-field">
-                <label>Role</label>
-                <select
-                  name="role"
-                  value={editingUser.role || "user"}
-                  onChange={(e) =>
-                    setEditingUser({
-                      ...editingUser,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                  className="form-input"
-                >
-                  <option value="admin">Admin</option>
-                  <option value="user">User</option>
-                </select>
-              </div>
-              <div className="modal-actions">
-                <button className="save-button" onClick={handleSave}>
-                  Save
-                </button>
-                <button
-                  className="cancel-button"
-                  onClick={() => setEditingUser(null)}
-                >
-                  Cancel
-                </button>
+            </div>
+          </div>
+        )}
+
+        {/* Apple-style Delete Modal */}
+        {deletingUser && (
+          <div className="apple-modal-backdrop">
+            <div className="apple-modal">
+              <div className="apple-modal-content">
+                <h3>Confirm Delete</h3>
+                <p>Are you sure you want to delete user {deletingUser.name}?</p>
+                <p className="apple-modal-subtitle">This action cannot be undone.</p>
+                <div className="apple-modal-actions">
+                  <button
+                    className="apple-btn apple-btn-danger"
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className="apple-btn apple-btn-secondary"
+                    onClick={() => setDeletingUser(null)}
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -221,4 +258,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default connect(null, null)(AdminDashboard);
+export default connect(null, { setAlert })(AdminDashboard);
