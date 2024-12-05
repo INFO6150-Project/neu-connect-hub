@@ -63,6 +63,11 @@ const Navbar = ({ auth = {}, admin = {}, logout }) => {
         </Link>
       </li>
       <li>
+        <Link to="http://localhost:3000/login" onClick={handleLinkClick}>
+          ConnectRoom
+        </Link>
+      </li>
+      <li>
         <a
           href="#!"
           onClick={(e) => {
