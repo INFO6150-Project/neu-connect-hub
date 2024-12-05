@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
-// middleware to check for a valid object id
+
+/**
+ * Middleware to validate MongoDB ObjectId
+ * @param {string} idToCheck - The parameter name containing the ID to validate
+ */
 const checkObjectId = (idToCheck) => (req, res, next) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params[idToCheck]))
-    return res.status(400).json({ msg: 'Invalid ID' });
-  next();
+    if (!mongoose.Types.ObjectId.isValid(req.params[idToCheck])) {
+        return res.status(400).json({ msg: 'Invalid ID' });
+    }
+    next();
 };
 
 module.exports = checkObjectId;
