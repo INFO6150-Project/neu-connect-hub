@@ -30,7 +30,7 @@ const Dashboard = ({
 
   return (
     <div className="dashboard-container">
-      <header className="dashboard-header">
+      <header className="userdashboard-header">
         <h1 className="dashboard-title">Dashboard</h1>
         <p className="dashboard-welcome">
           {user && `Welcome back, ${user.name}`}
